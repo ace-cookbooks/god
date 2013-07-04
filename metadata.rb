@@ -8,7 +8,7 @@ version           "1.0.5"
 
 recipe "god", "Installs god and starts it"
 
-%w{debian ubuntu}.each do |os|
+%w{debian ubuntu redhat fedora centos amazon}.each do |os|
   supports os
 end
 
