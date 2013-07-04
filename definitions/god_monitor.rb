@@ -17,22 +17,30 @@
 # limitations under the License.
 #
 
-define :god_monitor, :config => "mongrel.god.erb", :max_memory => 100, :cpu => 50 do
+# reload: Reload god so it notices the new service.  :delayed (default) or :immediately.
+# action: :enable To create the monitoring config (default), or :disable to remove it.
+# variables: Hash of instance variables to pass to the ERB template
+# template_cookbook: the cookbook in which the configuration resides
+# template_source: filename of the ERB configuration template, defaults to <LWRP Name>.conf.erb
+define :god_monitor, :action => :enable, :reload => :delayed, :variables => {}, :template_cookbook => "god", :template_source => nil do
   include_recipe "god"
-  
-  template "/etc/god/conf.d/#{params[:name]}.god" do
-    source params[:config]
-    owner "root"
-    group "root"
-    mode 0644
-    variables(
-      :name => params[:name],
-      :max_memory => params[:max_memory],
-      :cpu => params[:cpu],
-      :sv_bin => node[:runit][:sv_bin],
-      :params => params
-    )
-    notifies :restart, resources(:service => "god")
+
+  params[:template_source] ||= "#{params[:name]}.god.erb"
+  if params[:action] == :enable
+    template "/etc/god/conf.d/#{params[:name]}.god" do
+      owner "root"
+      group "root"
+      mode 0644
+      source params[:template_source]
+      cookbook params[:template_cookbook]
+      variables params[:variables]
+      notifies :restart, resources(:service => "god"), params[:reload]
+      action :create
+    end
+  else
+    template "/etc/god/conf.d/#{params[:name]}.conf" do
+      action :delete
+      notifies :restart, resources(:service => "god"), params[:reload]
+    end
   end
-  
 end
