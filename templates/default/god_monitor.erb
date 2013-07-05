@@ -10,28 +10,10 @@ keepalive_options = {}
 
 
 God.watch do |w|
-  <%# [:name, :group, :uid, :gid, :dir].each do |sym| -%>
-  <% [:dir].each do |sym| -%>
+  <% [:name, :group, :uid, :gid, :dir, :start, :stop, :restart].each do |sym| -%>
     <% if instance_variable_get("@#{sym}") -%>
-      <%= "#{sym} = #{instance_variable_get("@#{sym}")}" %>
+      <%= "w.#{sym} = '#{instance_variable_get("@#{sym}")}'" %>
     <% end -%>
-  <% end -%>
-
-  w.name = '<%= @name %>'
-  <% if @group -%>
-  w.group = '<%= @group %>'
-  <% end -%>
-  w.start = '<%= @start_command %>'
-  w.stop = '<%= @stop_command %>'
-  <% if @restart_command -%>
-  w.restart = '<%= @restart_command %>'
-  <% end -%>
-
-  <% if @uid -%>
-  w.uid = '<%= @uid %>'
-  <% end -%>
-  <% if @gid -%>
-  w.gid = '<%= @gid %>'
   <% end -%>
 
   <% if @pid_file -%>
