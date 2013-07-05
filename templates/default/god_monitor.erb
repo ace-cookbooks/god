@@ -20,6 +20,13 @@ God.watch do |w|
   w.restart = '<%= @restart_command %>'
   <% end -%>
 
+  <% if @uid -%>
+  w.uid = '<%= @uid %>'
+  <% end -%>
+  <% if @gid -%>
+  w.gid = '<%= @gid %>'
+  <% end -%>
+
   <% if @pid_file -%>
   w.pid_file = '<%= @pid_file %>'
   w.behavior(:clean_pid_file)
