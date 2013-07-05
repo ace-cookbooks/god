@@ -10,6 +10,13 @@ keepalive_options = {}
 
 
 God.watch do |w|
+  <%# [:name, :group, :uid, :gid, :dir].each do |sym| -%>
+  <% [:dir].each do |sym| -%>
+    <% if instance_variable_get("@#{sym}") -%>
+      <%= "#{sym} = #{instance_variable_get("@#{sym}")}" %>
+    <% end -%>
+  <% end -%>
+
   w.name = '<%= @name %>'
   <% if @group -%>
   w.group = '<%= @group %>'
