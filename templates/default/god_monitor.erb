@@ -20,12 +20,6 @@ God.watch do |w|
   w.restart = '<%= @restart_command %>'
   <% end -%>
 
-  <#% [:grace, :start_grace, :stop_grace, :restart_grace].each do |sym| -%>
-    <#% if instance_variable_get("@#{sym}") -%>
-      <#%= "#{sym} = #{instance_variable_get("@#{sym}")}" %>
-    <#% end -%>
-  <#% end -%>
-
   <% if @pid_file -%>
   w.pid_file = '<%= @pid_file %>'
   w.behavior(:clean_pid_file)
