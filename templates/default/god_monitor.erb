@@ -26,7 +26,7 @@ God.watch do |w|
   <% end -%>
 
   <% @env ||= {} -%>
-  w.env = { <%= @env.reduce(''){|str,hash| str << "'#{hash.first}' => '#{hash.last}', "} %> 'PATH' => 'path' }
+  w.env = { <%= @env.reduce(''){|str,hash| str << "'#{hash.first}' => '#{hash.last}', "} %> 'PATH' => path }
 
   w.keepalive(keepalive_options)
 
