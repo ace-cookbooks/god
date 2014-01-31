@@ -34,13 +34,13 @@ define :god_monitor, :action => :enable, :reload => :delayed, :variables => {}, 
       source params[:template_source]
       cookbook params[:template_cookbook]
       variables params[:variables]
-      notifies :restart, resources(:service => "god"), params[:reload]
+      notifies :restart, 'service[god]', params[:reload]
       action :create
     end
   else
     template "/etc/god/conf.d/#{params[:name]}.conf" do
       action :delete
-      notifies :restart, resources(:service => "god"), params[:reload]
+      notifies :restart, 'service[god]', params[:reload]
     end
   end
 end
