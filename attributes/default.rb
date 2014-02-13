@@ -1,4 +1,4 @@
-default['god']['bin']               = '/usr/bin/god'
+default['god']['bin']               = '/usr/local/bin/god'
 default['god']['init_style']        = 'runit'
 default['god']['email']['from']     = 'god@'+node[:domain].to_s
 default['god']['email']['contacts'] = []
